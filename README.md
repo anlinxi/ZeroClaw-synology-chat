@@ -61,33 +61,41 @@ LOG_LANGUAGE = LogLanguage.ENGLISH
 ---
 
 ## ⚙️ 群晖 Chat 完整配置
-### 1. 配置「出站 Webhook」（群晖 → 中转服务）
-1. 打开群晖 Chat → 点击右上角**头像** → **整合**
-2. 选择 **Webhook** → **新增** → 选择**出站**
-3. 按以下参数配置：
-   - 名称：ZeroClaw AI 中转
-   - 目标 URL：`http://你的服务器IP:42619/webhook/synology`
-   - 请求方式：`POST`
-   - 令牌：填写 `main.py` 中的 `SYNOLOGY_BOT_TOKEN`
-   - 触发条件：勾选 **私信**
-4. 点击**测试**，提示成功即配置完成
-
-### 2. 配置「入站 Webhook」（中转服务 → 群晖）
-1. 群晖 Chat 整合页面 → **新增** → 选择**入站 Webhook**
-2. 配置参数：
-   - 名称：ZeroClaw 消息回复
-   - 权限：勾选 **允许发送消息**
-3. 复制生成的**入站 Webhook 完整 URL**，替换 `main.py` 中的对应参数
+### 1. 配置「机器人」（群晖 → 中转服务）
+1. 打开群晖 Chat → 点击右上角**头像** → **整合** → **机器人**
+2. 点击**创建机器人**，填写机器人名称
+3. 配置参数：
+   - 传入URL：`http://你的服务器IP:42619/webhook/synology`
+4. 点击**确定**后，系统会生成并显示 **传入URL** 和 **令牌**
+5. 将生成的**令牌**复制到 `main.py` 的 `SYNOLOGY_BOT_TOKEN` 参数中
 
 ---
 
 ## 🤖 ZeroClaw 配置
-**无需额外配置**，本服务已自动对接 ZeroClaw 默认入站接口：
-1. 确保 ZeroClaw 正常后台运行：
+在 ZeroClaw 中配置 Webhook 通道，实现中转服务与 ZeroClaw 的对接：
+
+1. 确保 ZeroClaw 服务已启动：
 ```bash
 zeroclaw daemon
 ```
-2. ZeroClaw 会自动接收群晖消息并返回 AI 回复，无额外设置
+
+2. 进入 ZeroClaw 配置界面，执行命令：
+```bash
+zeroclaw onboard
+```
+
+3. 在配置菜单中选择 **Channels**，然后选择 **webhook**
+
+4. 配置 Webhook 参数：
+   - `enable`: `y`
+   - `port`: `42618`
+   - `listen-path`: `/webhook/synology`
+   - `send-url`: `http://127.0.0.1:42619/reply`
+   - `send-method`: `POST`
+   - `auth-header`: （留空即可）
+   - `secret`: （留空即可）
+
+5. 保存配置并重启 ZeroClaw 服务
 
 ---
 

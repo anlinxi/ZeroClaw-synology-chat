@@ -58,33 +58,41 @@ LOG_LANGUAGE = LogLanguage.ENGLISH
 ---
 
 ## ⚙️ Synology Chat Complete Configuration
-### 1. Configure "Outbound Webhook" (Synology → Relay Service)
-1. Open Synology Chat → Click **Profile** in the top right corner → **Integration**
-2. Select **Webhook** → **Add** → Select **Outbound**
-3. Configure parameters as follows:
-   - Name: ZeroClaw AI Relay
-   - Target URL: `http://your-server-ip:42619/webhook/synology`
-   - Request Method: `POST`
-   - Token: Fill in `SYNOLOGY_BOT_TOKEN` from `main.py`
-   - Trigger Condition: Check **Private Message**
-4. Click **Test**, configuration complete if successful
-
-### 2. Configure "Inbound Webhook" (Relay Service → Synology)
-1. Synology Chat Integration page → **Add** → Select **Inbound Webhook**
-2. Configure parameters:
-   - Name: ZeroClaw Message Reply
-   - Permissions: Check **Allow sending messages**
-3. Copy the generated **Inbound Webhook URL** and replace the corresponding parameter in `main.py`
+### 1. Configure "Bot" (Synology → Relay Service)
+1. Open Synology Chat → Click **Profile** in the top right corner → **Integration** → **Bot**
+2. Click **Create Bot** and fill in the bot name
+3. Configure parameters:
+   - Incoming URL: `http://your-server-ip:42619/webhook/synology`
+4. Click **OK**, the system will generate and display **Incoming URL** and **Token**
+5. Copy the generated **Token** to the `SYNOLOGY_BOT_TOKEN` parameter in `main.py`
 
 ---
 
 ## 🤖 ZeroClaw Configuration
-**No additional configuration required**, this service automatically connects to ZeroClaw's default inbound interface:
-1. Ensure ZeroClaw is running in the background:
+Configure the Webhook channel in ZeroClaw to connect the relay service with ZeroClaw:
+
+1. Ensure ZeroClaw service is running:
 ```bash
 zeroclaw daemon
 ```
-2. ZeroClaw will automatically receive Synology messages and return AI responses, no additional settings needed
+
+2. Enter ZeroClaw configuration interface:
+```bash
+zeroclaw onboard
+```
+
+3. Select **Channels** in the configuration menu, then select **webhook**
+
+4. Configure Webhook parameters:
+   - `enable`: `y`
+   - `port`: `42618`
+   - `listen-path`: `/webhook/synology`
+   - `send-url`: `http://127.0.0.1:42619/reply`
+   - `send-method`: `POST`
+   - `auth-header`: (leave empty)
+   - `secret`: (leave empty)
+
+5. Save configuration and restart ZeroClaw service
 
 ---
 
