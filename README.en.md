@@ -47,7 +47,13 @@ SYNOLOGY_INCOMING_URL = "https://www.yourdomain.com:5001/webapi/entry.cgi?api=SY
 LISTEN_PORT = 42619
 # Synology User ID (modify according to user ID in Synology Chat)
 USER_ID = 6
+# Log Language: LogLanguage.ENGLISH or LogLanguage.CHINESE
+LOG_LANGUAGE = LogLanguage.ENGLISH
 ```
+
+**Log Language Switch**:
+- `LogLanguage.ENGLISH` - Console logs in English (default)
+- `LogLanguage.CHINESE` - Console logs in Chinese
 
 ---
 

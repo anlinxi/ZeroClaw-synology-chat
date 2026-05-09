@@ -50,7 +50,13 @@ SYNOLOGY_INCOMING_URL = "https://www.yourdomain.com:5001/webapi/entry.cgi?api=SY
 LISTEN_PORT = 42619
 # 群晖用户ID（根据群晖 Chat 中的用户ID修改）
 USER_ID = 6
+# 日志语言设置：LogLanguage.ENGLISH 或 LogLanguage.CHINESE
+LOG_LANGUAGE = LogLanguage.ENGLISH
 ```
+
+**日志语言切换**：
+- `LogLanguage.ENGLISH` - 控制台日志输出为英文（默认）
+- `LogLanguage.CHINESE` - 控制台日志输出为中文
 
 ---
 
